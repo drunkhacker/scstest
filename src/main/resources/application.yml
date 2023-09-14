@@ -1,0 +1,40 @@
+spring:
+  cloud:
+    stream:
+      output-bindings: mytest
+      input-bindings: myinputtest
+      rabbit:
+        bindings:
+          mytest:
+            producer:
+              declare-exchange: false
+              exchange-type: direct
+          myinputtest:
+            consumer:
+              declare-exchange: false
+              exchange-type: topic
+          myconsumer:
+            consumer:
+              declare-exchange: true
+              exchange-type: topic
+              exchange-durable: false
+              exchange-auto-delete: true
+      bindings:
+        mytest:
+          destination: "aaaa"
+          binder: rabbit
+        myinputtest:
+          destination: "bbbb"
+        myconsumer-in-0:
+          destination: "terminal"
+
+      binders:
+        rabbit:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: guest
+                password: guest
